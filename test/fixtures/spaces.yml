@@ -1,0 +1,31 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# == Schema Information
+#
+# Table name: spaces
+#
+#  id         :bigint           not null, primary key
+#  capacity   :integer
+#  end_time   :time
+#  location   :string
+#  name       :string
+#  start_time :time
+#  status     :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+one:
+  name: MyString
+  capacity: 1
+  location: MyString
+  start_time: 2026-09-09 08:56:06
+  end_time: 2026-09-09 08:56:06
+  status: 1
+
+two:
+  name: MyString
+  capacity: 1
+  location: MyString
+  start_time: 2026-09-09 08:56:06
+  end_time: 2026-09-09 08:56:06
+  status: 1

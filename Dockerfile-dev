@@ -1,0 +1,31 @@
+FROM ruby:4.0.6
+
+ENV RAILS_ENV development
+ENV MAX_POOL_SIZE 15
+ENV MIN_INSTANCES 3
+ENV MAX_REQUESTS 1000
+ENV LANG C.UTF-8
+ENV PORT 3000
+ENV RUBY_DEBUG_OPEN=true
+ENV GEM_HOME=/bundle/ruby/4.0.0
+ENV BUNDLE_PATH=$GEM_HOME
+ENV BUNDLE_APP_CONFIG=/app/.bundle
+ENV PATH=$GEM_HOME/bin:$PATH
+
+
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 libsqlite3-dev
+
+RUN set -eux; \
+    groupadd --system --gid 1000 rails && \
+    useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash; \
+    mkdir -p /bundle /app/tmp/pids /app/tmp/sockets; \
+    chown -R rails:rails /bundle /app/tmp
+
+USER 1000:1000
+
+WORKDIR /app
+
+EXPOSE 3000
+
+VOLUME /bundle 

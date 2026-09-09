@@ -1,0 +1,30 @@
+version: '2.4'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile-dev
+    ports:
+      - "3301:3000"
+    volumes:
+      - .:/app
+    command: /bin/sh -c "while sleep 1000; do :; done" 
+  postgres:
+    image: postgres:18.6
+    stop_grace_period: 1m
+    stop_signal: SIGINT
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=reservaya_development
+    ports:
+      - "${POSTGRES_PORT:-5436}:5432"
+    volumes:
+      - postgres:/var/lib/postgresql
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+          size: 1073741824
+
+volumes:
+  postgres: 

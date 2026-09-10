@@ -19,25 +19,6 @@ test:
 
 production:
   primary:
-    <<: *default
-    database: reservaya_production
-    username: <%= ENV.fetch("DATABASE_USER", "app") %>
-    password: <%= ENV["APP_DATABASE_PASSWORD"] %>
-  cache:
-    <<: *default
-    database: reservaya_production_cache
-    username: <%= ENV.fetch("DATABASE_USER", "app") %>
-    password: <%= ENV["APP_DATABASE_PASSWORD"] %>
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *default
-    database: reservaya_production_queue
-    username: <%= ENV.fetch("DATABASE_USER", "app") %>
-    password: <%= ENV["APP_DATABASE_PASSWORD"] %>
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *default
-    database: reservaya_production_cable
-    username: <%= ENV.fetch("DATABASE_USER", "app") %>
-    password: <%= ENV["APP_DATABASE_PASSWORD"] %>
-    migrations_paths: db/cable_migrate
+    adapter: postgresql
+    url: <%= ENV["DATABASE_URL"] %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>

@@ -95,6 +95,16 @@ Full details in `docs/gitflow.md`. Summary:
 - `docs/frontend-architecture.md` — frontend layer details.
 - GitHub Project: https://github.com/users/Ryusse/projects/10 (`Iteración` field = sprints; `sprint:N` label).
 
+## Skills
+
+`.claude/skills/` — guías para flujos repetidos. Invocar con `/<nombre>` o dejar que Claude las use cuando la tarea encaje:
+
+| Skill | Para qué |
+|---|---|
+| `tarea-hu` | Implementar un issue `[BE]`/`[FE]` de punta a punta: rama desde el issue → código → tests → apipie → PR contra `dev` → merge + cierre + tablero. |
+| `nuevo-endpoint` | Añadir/cambiar un endpoint con sus 5 piezas: ruta, controlador, jbuilder, apipie, request spec. |
+| `nueva-migracion` | Crear y aplicar una migración con esquema, modelo, fixtures y seeds al día. |
+
 ## Rules for Claude
 
 - **No comments in code** (any language). Code is explained by clear names. Only exceptions: functional directives (`/// <reference ...>`, linter/TS pragmas that change behavior).

@@ -1,31 +1,23 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+sala_a:
+  name: Sala A
+  location: Piso 2
+  capacity: 10
+  start_time: 2000-01-01 08:00:00
+  end_time: 2000-01-01 20:00:00
+  status: 0
 
-# == Schema Information
-#
-# Table name: spaces
-#
-#  id         :bigint           not null, primary key
-#  capacity   :integer
-#  end_time   :time
-#  location   :string
-#  name       :string
-#  start_time :time
-#  status     :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#
-one:
-  name: MyString
-  capacity: 1
-  location: MyString
-  start_time: 2026-09-09 08:56:06
-  end_time: 2026-09-09 08:56:06
-  status: 1
+sala_b:
+  name: Sala B
+  location: Piso 3
+  capacity: 6
+  start_time: 2000-01-01 09:00:00
+  end_time: 2000-01-01 18:00:00
+  status: 0
 
-two:
-  name: MyString
-  capacity: 1
-  location: MyString
-  start_time: 2026-09-09 08:56:06
-  end_time: 2026-09-09 08:56:06
+inactiva:
+  name: Sala Baja
+  location: Piso 1
+  capacity: 4
+  start_time: 2000-01-01 08:00:00
+  end_time: 2000-01-01 12:00:00
   status: 1

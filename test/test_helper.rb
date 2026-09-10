@@ -13,3 +13,11 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
   end
 end
+
+class ActionDispatch::IntegrationTest
+  JSON_HEADERS = { "Accept" => "application/json" }.freeze
+
+  def auth_headers(user)
+    JSON_HEADERS.merge("Authorization" => "Bearer #{JsonWebToken.encode(user_id: user.id)}")
+  end
+end

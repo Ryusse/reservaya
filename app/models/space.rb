@@ -15,11 +15,13 @@
 class Space < ApplicationRecord
   has_many :reservations, dependent: :restrict_with_error
 
-  enum :status, { active: 0, inactive: 1 }
+  enum :status, { active: 0, inactive: 1 }, default: :active
 
   validates :name, presence: true
   validates :location, presence: true
   validates :capacity, presence: true, numericality: { greater_than: 0 }
+  validates :start_time, presence: true
+  validates :end_time, presence: true
   validate :end_time_after_start_time
 
   private

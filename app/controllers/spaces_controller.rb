@@ -13,9 +13,9 @@ class SpacesController < ApiController
       param :name, String, required: true
       param :capacity, :number, required: true, desc: "Debe ser > 0"
       param :location, String, required: true
-      param :start_time, String, desc: "Hora de apertura (HH:MM)"
-      param :end_time, String, desc: "Hora de cierre (HH:MM)"
-      param :status, ["active", "inactive"]
+      param :start_time, String, required: true, desc: "Hora de apertura (HH:MM)"
+      param :end_time, String, required: true, desc: "Hora de cierre (HH:MM), posterior a start_time"
+      param :status, ["active", "inactive"], desc: "Por defecto: active"
     end
   end
 
@@ -37,6 +37,7 @@ class SpacesController < ApiController
   api :POST, "/spaces", "Crear un espacio (solo admin)"
   header "Authorization", "Bearer <token>", required: true
   param_group :space
+  error code: 401, desc: "No autenticado (falta token)"
   error code: 403, desc: "No autorizado (no es admin)"
   error code: 422, desc: "Errores de validación"
   def create

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   resource :session, only: [:create, :destroy]
+  post "register", to: "registrations#create"
   resources :users, only: [:create]
   resources :spaces
   resources :reservations, only: [:index, :create, :update] do

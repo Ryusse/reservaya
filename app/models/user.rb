@@ -22,7 +22,8 @@ class User < ApplicationRecord
   enum :role, { user: 0, admin: 1 }
 
   validates :name, presence: true
-  validates :email, presence: true, uniqueness: { case_sensitive: false },
+  validates :email, presence: true,
+            uniqueness: { case_sensitive: false, message: "ya está registrado" },
             format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: 6 }, if: -> { new_record? || password.present? }
 end

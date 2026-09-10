@@ -3,23 +3,28 @@
 **Periodo:** 18/08/2026 – 08/09/2026 · **9 puntos**
 **Objetivo (APF1 §9.1):** implementar la gestión inicial de espacios físicos y el registro de usuarios institucionales.
 
-Alcance: **HT-01, HU01, HU02, HU03**. (HU04/HU05 = Sprint 2.)
+Alcance: **HT-01, HT-02, HT-03, HU01, HU02, HU03**. (HU04/HU05 = Sprint 2.)
+
+Habilitadores (no son HU de producto, van primero — las HU dependen de ellos):
+- **HT-01** — Autenticación y control de acceso (login, JWT, guard por rol, seed de admin).
+- **HT-02** — Arquitectura y setup del frontend (capas clean-arch, Base UI + CSS Modules, router, store, http client).
+- **HT-03** — Configuración del repositorio y flujo de trabajo (README ✓, plantillas ✓, CLAUDE.md ✓, gitflow, CI, skills).
 
 ---
 
-## Decisiones de arquitectura a cerrar en el Sprint Planning
+## Decisiones de arquitectura
 
-1. **Frontend acoplado (Inertia) vs. desacoplado (React SPA + API REST).**
-   RNF07 + prototipo en Vercel + API JSON/JWT del colega → apunta a **desacoplado**.
-   Si se confirma: Rails queda API-only, se añade `rack-cors`, y el React de `app/javascript`
-   se trata como app independiente. Definir antes de empezar HU01-FE.
+1. **Frontend desacoplado — CERRADA.** React SPA consume la API REST con `Authorization: Bearer`
+   (RNF07 + prototipo en Vercel + API JWT del colega). Estructura por capas en `app/javascript/`
+   (`models → services → adapters → hooks → stores → components/pages`). Estilado con CSS Modules,
+   componentes con Base UI. Detalle en `docs/frontend-architecture.md` (tarea #29).
 
 2. **Endpoint de auto-registro (HU03).**
    Hoy `POST /users` exige admin. Se añade `POST /register` público que crea usuario con
    rol `user` forzado. `POST /users` (admin) se mantiene para altas internas.
 
-3. **`start_time` / `end_time` en Space: ¿obligatorios?**
-   El escenario 1 de HU01 los lista como datos a ingresar. Hoy son opcionales. Confirmar con PO.
+3. **`start_time` / `end_time` en Space: ¿obligatorios?** — pendiente confirmar con PO.
+   El escenario 1 de HU01 los lista como datos a ingresar; hoy son opcionales.
 
 ---
 

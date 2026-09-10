@@ -1,5 +1,7 @@
 # Reservaya
 
+[![CI](https://github.com/Ryusse/reservaya/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/Ryusse/reservaya/actions/workflows/ci.yml)
+
 App de reservas de espacios. **Rails 8.1** (backend API + página Inertia) + **Vite / React / TypeScript** (frontend) + **PostgreSQL**.
 
 - **Backend** y **frontend** corren en tu máquina con los scripts del template.

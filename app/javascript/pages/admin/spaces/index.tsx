@@ -1,6 +1,5 @@
 import {
   Button,
-  Container,
   Dialog,
   Flex,
   Heading,
@@ -14,27 +13,20 @@ import {
 
 import { SpaceForm } from '@/components/spaces/space-form'
 import { useCreateSpace } from '@/hooks/use-create-space'
-import { useLogout } from '@/hooks/use-logout'
 import { useSpaces } from '@/hooks/use-spaces'
 import { apiErrors } from '@/lib/api-error'
 
 export function AdminSpacesPage() {
   const spaces = useSpaces()
   const createSpace = useCreateSpace()
-  const logout = useLogout()
   const dialog = useDisclosure()
 
   return (
-    <Container maxW="4xl" py="10">
-      <Stack gap="6">
-        <Flex justify="space-between" align="center">
+    <>
+      <Stack gap="6" maxW="5xl">
+        <Flex justify="space-between" align="center" gap="4">
           <Heading size="2xl">Espacios</Heading>
-          <Flex gap="3">
-            <Button onClick={dialog.onOpen}>Nuevo espacio</Button>
-            <Button variant="outline" onClick={() => logout.mutate()} loading={logout.isPending}>
-              Cerrar sesión
-            </Button>
-          </Flex>
+          <Button onClick={dialog.onOpen}>Nuevo espacio</Button>
         </Flex>
 
         {spaces.isPending ? (
@@ -89,6 +81,6 @@ export function AdminSpacesPage() {
           </Dialog.Positioner>
         </Portal>
       </Dialog.Root>
-    </Container>
+    </>
   )
 }

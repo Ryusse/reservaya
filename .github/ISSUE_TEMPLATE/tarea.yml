@@ -1,0 +1,32 @@
+name: "Tarea"
+description: "Tarea técnica de una HU o habilitador (BE / FE / QA)"
+title: "[BE|FE|QA] HUxx · "
+labels: ["type:tarea"]
+body:
+  - type: input
+    id: padre
+    attributes:
+      label: "HU / Habilitador padre"
+      placeholder: "#12 (HU01)"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: "Área"
+      options: ["backend", "frontend", "qa"]
+    validations:
+      required: true
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: "Descripción / pasos"
+      value: |
+        - [ ] ...
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: "Hecho cuando"
+      placeholder: "Endpoint responde según contrato + test verde + anotado en /apipie"

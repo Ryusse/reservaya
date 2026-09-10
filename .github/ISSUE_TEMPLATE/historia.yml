@@ -1,0 +1,62 @@
+name: "Historia de usuario"
+description: "HU del Product Backlog (formato Como / Necesito / Para)"
+title: "HUxx · "
+labels: ["type:historia"]
+body:
+  - type: input
+    id: enunciado
+    attributes:
+      label: "Enunciado"
+      description: "Como <rol>, necesito <acción>, para <beneficio>."
+      placeholder: "Como Administrador de espacios, necesito registrar un espacio con su capacidad y horario, para que los usuarios puedan reservarlo."
+    validations:
+      required: true
+  - type: textarea
+    id: escenarios
+    attributes:
+      label: "Escenarios (Dado que / Cuando / Entonces)"
+      placeholder: |
+        Escenario 1 — Registro exitoso
+        Dado que: ...
+        Cuando: ...
+        Entonces: ...
+    validations:
+      required: true
+  - type: textarea
+    id: criterios
+    attributes:
+      label: "Criterios de aceptación"
+      description: "Uno por escenario."
+    validations:
+      required: true
+  - type: input
+    id: requisitos
+    attributes:
+      label: "RF / RNF que cubre"
+      placeholder: "RF01, RNF03"
+  - type: dropdown
+    id: epica
+    attributes:
+      label: "Épica"
+      options: ["Gestión de espacios", "Usuarios", "Reservas", "Monitoreo", "Reportes", "Notificaciones"]
+    validations:
+      required: true
+  - type: input
+    id: puntos
+    attributes:
+      label: "Puntos de historia (Fibonacci)"
+      placeholder: "3"
+  - type: textarea
+    id: tareas
+    attributes:
+      label: "Tareas"
+      description: "Se enlazan como sub-issues [BE] / [FE] / [QA]."
+      value: |
+        - [ ] [BE] ...
+        - [ ] [FE] ...
+        - [ ] [QA] ...
+  - type: input
+    id: dependencias
+    attributes:
+      label: "Dependencias"
+      placeholder: "HT-01"

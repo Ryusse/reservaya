@@ -44,3 +44,5 @@ node_modules
 
 # JetBrains IDE
 /.idea/
+
+.DS_Store

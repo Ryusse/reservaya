@@ -1,6 +1,6 @@
 import { Box, CloseButton, Drawer, Flex, Heading, IconButton, Portal } from '@chakra-ui/react'
-import { useState } from 'react'
 import type { ReactNode } from 'react'
+import { useState } from 'react'
 import { LuMenu } from 'react-icons/lu'
 
 import { Sidebar } from '@/components/layout/sidebar'
@@ -43,7 +43,12 @@ export function AppShell({ children }: AppShellProps) {
         borderColor="border.subtle"
         bg="bg.panel"
       >
-        <Drawer.Root open={open} onOpenChange={(event) => setOpen(event.open)} placement="start" size="xs">
+        <Drawer.Root
+          open={open}
+          onOpenChange={(event) => setOpen(event.open)}
+          placement="start"
+          size="xs"
+        >
           <Drawer.Trigger asChild>
             <IconButton aria-label="Abrir menú" variant="ghost" size="sm">
               <LuMenu />

@@ -1,9 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
-
-import { authService } from '@/services/auth.service'
 import type { Credentials } from '@/models/credentials'
 import { Role } from '@/models/role'
+import { authService } from '@/services/auth.service'
 import { useSessionStore } from '@/stores/session.store'
 
 export function useLogin() {

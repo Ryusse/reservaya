@@ -27,8 +27,8 @@ export function DeactivateSpaceDialog({ space, onClose }: DeactivateSpaceDialogP
             </Dialog.Header>
             <Dialog.Body>
               <Text>
-                ¿Dar de baja «{space?.name}»? Dejará de estar disponible para reservas y no aparecerá
-                en el listado.
+                ¿Dar de baja «{space?.name}»? Dejará de estar disponible para reservas y no
+                aparecerá en el listado.
               </Text>
               {deactivate.isError ? (
                 <Text mt="3" color="fg.error" fontSize="sm">

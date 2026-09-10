@@ -2,20 +2,32 @@
   "private": true,
   "type": "module",
   "devDependencies": {
+    "@biomejs/biome": "^2.5.13",
     "@tanstack/router-cli": "^1.167.35",
     "@tanstack/router-devtools": "^1.167.1",
     "@tanstack/router-plugin": "^1.168.37",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/node": "^22.20.2",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
+    "jsdom": "^30.0.1",
     "typescript": "^7.0.2",
     "vite": "^8.2.2",
-    "vite-plugin-ruby": "^5.2.3"
+    "vite-plugin-ruby": "^5.2.3",
+    "vitest": "^5.0.0"
   },
   "scripts": {
     "dev": "bin/dev",
     "backend": "bin/rails server -b 127.0.0.1",
     "frontend": "bin/vite dev",
-    "check": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json"
+    "check": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json",
+    "lint": "biome check",
+    "lint:fix": "biome check --write",
+    "format": "biome format --write",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.37.0",

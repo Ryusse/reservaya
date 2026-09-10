@@ -4,6 +4,8 @@ import { useState } from 'react'
 import type { NewSpace } from '@/models/space'
 
 type SpaceFormProps = {
+  initialValues?: NewSpace
+  submitLabel?: string
   pending?: boolean
   errors?: string[]
   onSubmit: (values: NewSpace) => void
@@ -11,8 +13,8 @@ type SpaceFormProps = {
 
 const empty: NewSpace = { name: '', location: '', capacity: 1, startTime: '', endTime: '' }
 
-export function SpaceForm({ pending, errors, onSubmit }: SpaceFormProps) {
-  const [values, setValues] = useState<NewSpace>(empty)
+export function SpaceForm({ initialValues, submitLabel = 'Guardar', pending, errors, onSubmit }: SpaceFormProps) {
+  const [values, setValues] = useState<NewSpace>(initialValues ?? empty)
 
   const set = <K extends keyof NewSpace>(key: K, value: NewSpace[K]) =>
     setValues((current) => ({ ...current, [key]: value }))
@@ -62,7 +64,7 @@ export function SpaceForm({ pending, errors, onSubmit }: SpaceFormProps) {
         ) : null}
 
         <Button type="submit" loading={pending}>
-          Guardar
+          {submitLabel}
         </Button>
       </Stack>
     </form>

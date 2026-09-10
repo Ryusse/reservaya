@@ -34,7 +34,16 @@ export function toSpacePayload(input: NewSpace) {
       capacity: input.capacity,
       start_time: input.startTime,
       end_time: input.endTime,
-      status: 'active',
     },
+  }
+}
+
+export function toSpaceInput(space: Space): NewSpace {
+  return {
+    name: space.name,
+    location: space.location,
+    capacity: space.capacity,
+    startTime: space.startTime ?? '',
+    endTime: space.endTime ?? '',
   }
 }

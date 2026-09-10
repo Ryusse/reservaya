@@ -13,4 +13,13 @@ export const spacesService = {
     const { data } = await http.post<SpaceResponse>('/spaces', toSpacePayload(input))
     return toSpace(data)
   },
+
+  async update(id: number, input: NewSpace): Promise<Space> {
+    const { data } = await http.patch<SpaceResponse>(`/spaces/${id}`, toSpacePayload(input))
+    return toSpace(data)
+  },
+
+  async deactivate(id: number): Promise<void> {
+    await http.delete(`/spaces/${id}`)
+  },
 }

@@ -57,12 +57,17 @@ Router: **TanStack Router**, file-based (`routes/`, generated `routeTree.gen.ts`
 UI: **Chakra UI v3** — use its primitives directly (`Button`, `Stack`, `Dialog.*`, …) with style props / recipes. No CSS Modules, no `cn`/`styled` helpers.
 Composition: `entrypoints/application.tsx` (wraps `<Provider>`) -> `App.tsx` -> `router.tsx`.
 
-## Tests
+## Tests & lint
 
 ```bash
 bin/rails test        # backend (Minitest)
-pnpm check            # frontend tsc
+pnpm check            # frontend types (tsc)
+pnpm lint             # Biome (lint + format check + import sort) — NOT ESLint/Prettier
+pnpm lint:fix         # Biome autofix
+pnpm test             # frontend unit tests (Vitest, jsdom) — *.test.ts(x) next to the source
 ```
+
+Lint/format is **Biome** (`biome.json`). `components/ui/` (Chakra snippets) and `routeTree.gen.ts` are excluded.
 
 ## Git workflow
 

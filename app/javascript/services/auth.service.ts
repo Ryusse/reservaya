@@ -1,5 +1,5 @@
-import { toSession } from '@/adapters/session.adapter'
 import type { LoginResponse } from '@/adapters/session.adapter'
+import { toSession } from '@/adapters/session.adapter'
 import { http } from '@/lib/http'
 import type { Credentials } from '@/models/credentials'
 import type { Registration } from '@/models/registration'

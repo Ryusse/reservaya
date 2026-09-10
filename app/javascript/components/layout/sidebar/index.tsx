@@ -1,4 +1,15 @@
-import { Avatar, Button, Flex, HStack, Heading, Icon, Link, Separator, Stack, Text } from '@chakra-ui/react'
+import {
+  Avatar,
+  Button,
+  Flex,
+  Heading,
+  HStack,
+  Icon,
+  Link,
+  Separator,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
 import { Link as RouterLink } from '@tanstack/react-router'
 import { LuCalendarCheck, LuLogOut } from 'react-icons/lu'
 
@@ -39,7 +50,11 @@ export function Sidebar({ onNavigate }: SidebarProps) {
             _hover={{ textDecoration: 'none', bg: 'bg.muted', color: 'fg' }}
             css={{ '&[aria-current="page"]': { bg: 'bg.emphasized', color: 'fg' } }}
           >
-            <RouterLink to={item.to} onClick={onNavigate} activeOptions={{ exact: item.to === '/' }}>
+            <RouterLink
+              to={item.to}
+              onClick={onNavigate}
+              activeOptions={{ exact: item.to === '/' }}
+            >
               <Icon as={item.icon} boxSize="4" />
               {item.label}
             </RouterLink>
@@ -62,7 +77,12 @@ export function Sidebar({ onNavigate }: SidebarProps) {
             </Text>
           </Stack>
         </HStack>
-        <Button variant="outline" size="sm" onClick={() => logout.mutate()} loading={logout.isPending}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => logout.mutate()}
+          loading={logout.isPending}
+        >
           <LuLogOut />
           Cerrar sesión
         </Button>

@@ -57,7 +57,9 @@ export function AdminSpacesPage() {
                     <Table.Cell>{space.location}</Table.Cell>
                     <Table.Cell>{space.capacity}</Table.Cell>
                     <Table.Cell>
-                      {space.startTime && space.endTime ? `${space.startTime}–${space.endTime}` : '—'}
+                      {space.startTime && space.endTime
+                        ? `${space.startTime}–${space.endTime}`
+                        : '—'}
                     </Table.Cell>
                     <Table.Cell>
                       <Flex gap="2" justify="end">

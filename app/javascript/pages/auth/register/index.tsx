@@ -3,8 +3,8 @@ import { Link as RouterLink } from '@tanstack/react-router'
 import { useState } from 'react'
 
 import { useRegister } from '@/hooks/use-register'
-import type { Registration } from '@/models/registration'
 import { apiErrors } from '@/lib/api-error'
+import type { Registration } from '@/models/registration'
 
 const empty: Registration = { name: '', email: '', password: '' }
 
@@ -49,7 +49,11 @@ export function RegisterPage() {
             <Stack gap="4">
               <Field.Root required invalid={Boolean(errors.name)}>
                 <Field.Label>Nombre</Field.Label>
-                <Input value={values.name} onChange={(event) => set('name', event.target.value)} autoComplete="name" />
+                <Input
+                  value={values.name}
+                  onChange={(event) => set('name', event.target.value)}
+                  autoComplete="name"
+                />
                 <Field.ErrorText>{errors.name}</Field.ErrorText>
               </Field.Root>
 

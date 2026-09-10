@@ -13,7 +13,13 @@ type SpaceFormProps = {
 
 const empty: NewSpace = { name: '', location: '', capacity: 1, startTime: '', endTime: '' }
 
-export function SpaceForm({ initialValues, submitLabel = 'Guardar', pending, errors, onSubmit }: SpaceFormProps) {
+export function SpaceForm({
+  initialValues,
+  submitLabel = 'Guardar',
+  pending,
+  errors,
+  onSubmit,
+}: SpaceFormProps) {
   const [values, setValues] = useState<NewSpace>(initialValues ?? empty)
 
   const set = <K extends keyof NewSpace>(key: K, value: NewSpace[K]) =>
@@ -46,11 +52,19 @@ export function SpaceForm({ initialValues, submitLabel = 'Guardar', pending, err
         </Field.Root>
         <Field.Root required>
           <Field.Label>Hora de apertura</Field.Label>
-          <Input type="time" value={values.startTime} onChange={(e) => set('startTime', e.target.value)} />
+          <Input
+            type="time"
+            value={values.startTime}
+            onChange={(e) => set('startTime', e.target.value)}
+          />
         </Field.Root>
         <Field.Root required>
           <Field.Label>Hora de cierre</Field.Label>
-          <Input type="time" value={values.endTime} onChange={(e) => set('endTime', e.target.value)} />
+          <Input
+            type="time"
+            value={values.endTime}
+            onChange={(e) => set('endTime', e.target.value)}
+          />
         </Field.Root>
 
         {errors?.length ? (

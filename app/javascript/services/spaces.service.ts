@@ -1,5 +1,5 @@
-import { toSpace, toSpacePayload } from '@/adapters/space.adapter'
 import type { SpaceResponse } from '@/adapters/space.adapter'
+import { toSpace, toSpacePayload } from '@/adapters/space.adapter'
 import { http } from '@/lib/http'
 import type { NewSpace, Space } from '@/models/space'
 

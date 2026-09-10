@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
 import { Role } from '@/models/role'
-import { AdminHomePage } from '@/pages/admin/home'
+import { AdminSpacesPage } from '@/pages/admin/spaces'
 
 export const Route = createFileRoute('/_authed/admin')({
   beforeLoad: ({ context }) => {
@@ -9,5 +9,5 @@ export const Route = createFileRoute('/_authed/admin')({
       throw redirect({ to: '/' })
     }
   },
-  component: AdminHomePage,
+  component: AdminSpacesPage,
 })

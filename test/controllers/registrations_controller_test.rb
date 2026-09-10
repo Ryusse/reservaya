@@ -5,17 +5,22 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     { user: { name: "Nueva Persona", email: "nueva@example.com", password: "secret123" }.merge(overrides) }
   end
 
-  test "POST /register creates a user with role user and returns a token" do
+  test "POST /register creates a user with role user and opens a session" do
     assert_difference "User.count", 1 do
       post register_url, headers: JSON_HEADERS, params: registration_params
     end
 
     assert_response :created
     body = JSON.parse(response.body)
-    assert body["token"].present?
+    assert_nil body["token"]
+    assert response.cookies["reservaya_session"].present?
     assert_equal "nueva@example.com", body["user"]["email"]
     assert_equal "user", body["user"]["role"]
     assert_equal "user", User.find_by(email: "nueva@example.com").role
+
+    get session_url, headers: JSON_HEADERS
+    assert_response :success
+    assert_equal "nueva@example.com", JSON.parse(response.body)["user"]["email"]
   end
 
   test "POST /register ignores an admin role in the payload" do

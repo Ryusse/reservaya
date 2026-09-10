@@ -10,14 +10,14 @@ class RegistrationsController < ApiController
     param :email, String, required: true
     param :password, String, required: true, desc: "Mínimo 6 caracteres"
   end
-  returns code: 201, desc: "{ message, token, user }"
+  returns code: 201, desc: "{ message, user }. Deja la cookie de sesión."
   error code: 422, desc: "Errores de validación (incluye email ya registrado)"
   def create
     @user = User.new(user_params)
     @user.role = :user
 
     if @user.save
-      @token = JsonWebToken.encode(user_id: @user.id)
+      set_session_cookie(JsonWebToken.encode(user_id: @user.id))
       render :create, status: :created
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity

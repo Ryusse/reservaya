@@ -1,4 +1,3 @@
-json.message "Bienvenido, #{@user.name}"
 json.user do
   json.id @user.id
   json.name @user.name

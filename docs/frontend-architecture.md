@@ -1,7 +1,8 @@
 # Arquitectura del frontend
 
-SPA de **React + TypeScript + Vite** que consume la API REST de Rails con
-`Authorization: Bearer <token>` (RNF07). Estructura por capas inspirada en
+SPA de **React + TypeScript + Vite** que consume la API REST de Rails (RNF07). La sesión
+va en una cookie httpOnly encriptada que pone `POST /session`; el SPA no maneja el token.
+Estructura por capas inspirada en
 *Front-End Clean Architecture* (Gentleman Programming), adaptada a **TanStack Router**,
 **Zustand** y **CSS Modules**.
 
@@ -11,10 +12,10 @@ SPA de **React + TypeScript + Vite** que consume la API REST de Rails con
 |---|---|---|
 | `models/` | Tipos de dominio: `User`, `Session`, `Space`, `Reservation`, enums | — |
 | `adapters/` | Traducen la respuesta cruda de la API (jbuilder) a `models` y viceversa: fechas, enums, `snake_case → camelCase` | `models` |
-| `lib/` | Infra transversal: cliente HTTP (axios + interceptor Bearer, manejo 401/403), configuración | `models` |
+| `lib/` | Infra transversal: cliente HTTP (axios, withCredentials, manejo 401/403), configuración | `models` |
 | `services/` | Lógica de negocio y orquestación de llamadas: `authService`, `spacesService`, … | `lib`, `adapters`, `models` |
 | `hooks/` | Encapsulan `services` + estado para los componentes: `useAuth`, `useSpaces`, … | `services`, `stores`, `models` |
-| `stores/` | Estado global con Zustand (sesión: `user`, `token`, `role`) | `models` |
+| `stores/` | Estado global con Zustand (sesión: `user`, `role`, estado de carga — sin token) | `models` |
 | `components/ui/` | Componentes de presentación (Base UI envuelto). **No** llaman a `services` ni `stores` | — |
 | `components/<feature>/` | Componentes compuestos de una feature | `components/ui`, `hooks`, `models` |
 | `pages/` | Contenedores de ruta; componen `hooks` + `components` | `hooks`, `components`, `models` |

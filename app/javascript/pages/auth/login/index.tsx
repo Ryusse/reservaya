@@ -1,4 +1,5 @@
 import { Button, Card, Container, Field, Heading, Input, Stack, Text } from '@chakra-ui/react'
+import { Link as RouterLink } from '@tanstack/react-router'
 import { useState } from 'react'
 
 import { useLogin } from '@/hooks/use-login'
@@ -48,6 +49,13 @@ export function LoginPage() {
               <Button type="submit" loading={login.isPending}>
                 Entrar
               </Button>
+
+              <Text fontSize="sm" color="fg.muted">
+                ¿No tienes cuenta?{' '}
+                <RouterLink to="/register" style={{ textDecoration: 'underline' }}>
+                  Regístrate
+                </RouterLink>
+              </Text>
             </Stack>
           </form>
         </Card.Body>

@@ -2,7 +2,9 @@
   "private": true,
   "type": "module",
   "devDependencies": {
-    "@inertiajs/core": "^3.7.0",
+    "@tanstack/router-cli": "^1.167.35",
+    "@tanstack/router-devtools": "^1.167.1",
+    "@tanstack/router-plugin": "^1.168.37",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "typescript": "^7.0.2",
@@ -16,14 +18,10 @@
     "check": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json"
   },
   "dependencies": {
-    "@inertiajs/react": "^3.7.0",
-    "@inertiajs/vite": "^3.7.0",
-    "@tailwindcss/forms": "^0.5.11",
-    "@tailwindcss/typography": "^0.5.20",
-    "@tailwindcss/vite": "^4.3.3",
+    "@tanstack/react-router": "^1.170.34",
     "@vitejs/plugin-react": "^6.1.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "tailwindcss": "^4.3.3"
+    "zustand": "^5.0.15"
   }
 }

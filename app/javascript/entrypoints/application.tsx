@@ -2,13 +2,15 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import { App } from '@/App'
-import '@/styles/global.css'
+import { Provider } from '@/components/ui/provider'
 
 const el = document.getElementById('root')
-if (!el) throw new Error('Falta <div id="root"> en el layout')
+if (!el) throw new Error('Missing <div id="root"> in the layout')
 
 createRoot(el).render(
   <StrictMode>
-    <App />
+    <Provider>
+      <App />
+    </Provider>
   </StrictMode>,
 )

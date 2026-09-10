@@ -49,13 +49,13 @@ Layered, dependencies point inward — `routes -> pages -> hooks -> services -> 
 | `services/` | business logic + API calls |
 | `hooks/` | `useAuth`, `useSpaces`, … |
 | `stores/` | global state with **Zustand** (session: user, token, role) |
-| `components/ui/` | wrapped **Base UI** · `components/<feature>/` |
+| `components/ui/` | **Chakra UI** snippets (`provider`, `color-mode`, `toaster`, `tooltip`). Feature components: `components/<module>/` |
 | `pages/` | route containers |
 | `routes/` | **TanStack Router** tree (file-based) + role guards |
 
 Router: **TanStack Router**, file-based (`routes/`, generated `routeTree.gen.ts`). State: **Zustand**.
-Styling: **CSS Modules** (`*.module.css`); components from **Base UI**. Details in `docs/frontend-architecture.md`.
-Composition: `entrypoints/application.tsx` -> `App.tsx` -> `router.tsx`.
+UI: **Chakra UI v3** — use its primitives directly (`Button`, `Stack`, `Dialog.*`, …) with style props / recipes. No CSS Modules, no `cn`/`styled` helpers.
+Composition: `entrypoints/application.tsx` (wraps `<Provider>`) -> `App.tsx` -> `router.tsx`.
 
 ## Tests
 
@@ -99,4 +99,11 @@ Full details in `docs/gitflow.md`. Summary:
 - All `rails`/`bundle`/`pnpm`/`vite` execution is on the host, not in Docker (Docker only runs PostgreSQL).
 - When adding/changing an endpoint: route + controller (`< ApiController`) + jbuilder + apipie annotation + request spec.
 - Respect the frontend dependency direction; `components/ui/` never calls `services`.
+- **One folder per page / feature component**: `index.tsx` in its own folder, kebab-case name, PascalCase export.
+  - Pages: `pages/<module>/<page>/` (a *module* = feature area: `auth`, `spaces`, `reservations`, …); top-level pages without a module go in `pages/<page>/`.
+  - Module-specific components: `components/<module>/<name>/`.
+  - `components/ui/` holds Chakra snippets (flat `.tsx` files, as the Chakra CLI generates them).
+  - Route files in `routes/` only define the route and import the page component from `pages/`.
+- **No barrel / `index.ts` re-export files.** Import directly.
+- **UI = Chakra UI v3.** Style with Chakra props/recipes, not CSS Modules. Add Chakra snippets with `pnpm dlx @chakra-ui/cli snippet add <name> --tsx --outdir app/javascript/components/ui`.
 - This file (`CLAUDE.md`) is always written in English.

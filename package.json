@@ -13,15 +13,20 @@
   },
   "scripts": {
     "dev": "bin/dev",
-    "backend": "bin/rails server",
+    "backend": "bin/rails server -b 127.0.0.1",
     "frontend": "bin/vite dev",
     "check": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json"
   },
   "dependencies": {
+    "@chakra-ui/react": "^3.37.0",
+    "@emotion/react": "^11.14.0",
+    "@floating-ui/react": "^0.27.20",
     "@tanstack/react-router": "^1.170.34",
     "@vitejs/plugin-react": "^6.1.1",
+    "next-themes": "^0.4.6",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "react-icons": "^5.7.0",
     "zustand": "^5.0.15"
   }
 }

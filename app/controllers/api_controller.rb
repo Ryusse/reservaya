@@ -1,7 +1,11 @@
-# Base controller for the JSON API (token auth, no sessions/views).
-# The Inertia side keeps using ApplicationController (ActionController::Base).
 class ApiController < ActionController::API
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
   private
+
+  def not_found
+    render json: { error: "Recurso no encontrado" }, status: :not_found
+  end
 
   def require_login
     token = request.headers["Authorization"]&.split(" ")&.last

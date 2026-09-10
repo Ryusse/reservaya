@@ -78,4 +78,92 @@ class SpacesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unprocessable_entity
   end
+
+  test "PATCH /spaces/:id updates a space as admin" do
+    space = spaces(:sala_a)
+
+    patch space_url(space), headers: auth_headers(@admin), params: { space: { name: "Sala A renombrada", capacity: 25 } }
+
+    assert_response :success
+    body = JSON.parse(response.body)
+    assert_equal "Sala A renombrada", body["name"]
+    assert_equal 25, body["capacity"]
+    assert_equal "Sala A renombrada", space.reload.name
+  end
+
+  test "PATCH /spaces/:id with invalid data returns 422 and keeps the record" do
+    space = spaces(:sala_a)
+
+    patch space_url(space), headers: auth_headers(@admin), params: { space: { capacity: 0 } }
+
+    assert_response :unprocessable_entity
+    assert JSON.parse(response.body)["errors"].present?
+    assert_equal 10, space.reload.capacity
+  end
+
+  test "PATCH /spaces/:id with end_time before start_time returns 422" do
+    space = spaces(:sala_a)
+
+    patch space_url(space), headers: auth_headers(@admin), params: { space: { start_time: "20:00", end_time: "08:00" } }
+
+    assert_response :unprocessable_entity
+  end
+
+  test "PATCH /spaces/:id on a missing space returns 404" do
+    patch space_url(id: 999_999), headers: auth_headers(@admin), params: { space: { name: "x" } }
+
+    assert_response :not_found
+    assert JSON.parse(response.body)["error"].present?
+  end
+
+  test "PATCH /spaces/:id as non-admin is forbidden" do
+    patch space_url(spaces(:sala_a)), headers: auth_headers(@member), params: { space: { name: "x" } }
+
+    assert_response :forbidden
+  end
+
+  test "PATCH /spaces/:id without token is unauthorized" do
+    patch space_url(spaces(:sala_a)), headers: JSON_HEADERS, params: { space: { name: "x" } }
+
+    assert_response :unauthorized
+  end
+
+  test "DELETE /spaces/:id deactivates the space without deleting it" do
+    space = spaces(:sala_a)
+
+    assert_no_difference "Space.count" do
+      delete space_url(space), headers: auth_headers(@admin)
+    end
+
+    assert_response :success
+    assert_equal "inactive", space.reload.status
+  end
+
+  test "a deactivated space no longer appears in GET /spaces" do
+    space = spaces(:sala_a)
+    delete space_url(space), headers: auth_headers(@admin)
+
+    get spaces_url, headers: auth_headers(@member)
+
+    ids = JSON.parse(response.body).map { |entry| entry["id"] }
+    assert_not_includes ids, space.id
+  end
+
+  test "DELETE /spaces/:id on a missing space returns 404" do
+    delete space_url(id: 999_999), headers: auth_headers(@admin)
+
+    assert_response :not_found
+  end
+
+  test "DELETE /spaces/:id as non-admin is forbidden" do
+    delete space_url(spaces(:sala_a)), headers: auth_headers(@member)
+
+    assert_response :forbidden
+  end
+
+  test "DELETE /spaces/:id without token is unauthorized" do
+    delete space_url(spaces(:sala_a)), headers: JSON_HEADERS
+
+    assert_response :unauthorized
+  end
 end

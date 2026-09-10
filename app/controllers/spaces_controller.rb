@@ -54,7 +54,9 @@ class SpacesController < ApiController
   header "Authorization", "Bearer <token>", required: true
   param :id, :number, required: true
   param_group :space
+  error code: 401, desc: "No autenticado (falta token)"
   error code: 403, desc: "No autorizado (no es admin)"
+  error code: 404, desc: "Espacio inexistente"
   error code: 422, desc: "Errores de validación"
   def update
     if @space.update(space_params)
@@ -67,6 +69,9 @@ class SpacesController < ApiController
   api :DELETE, "/spaces/:id", "Desactivar un espacio (soft delete, solo admin)"
   header "Authorization", "Bearer <token>", required: true
   param :id, :number, required: true
+  error code: 401, desc: "No autenticado (falta token)"
+  error code: 403, desc: "No autorizado (no es admin)"
+  error code: 404, desc: "Espacio inexistente"
   returns code: 200, desc: "{ message }"
   def destroy
     @space.update(status: :inactive)

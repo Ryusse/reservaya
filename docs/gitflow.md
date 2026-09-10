@@ -30,9 +30,15 @@
 5. **Push y PR**:
    ```bash
    git push -u origin feature/<ID>-<slug>
-   gh pr create --base dev --fill
+   gh pr create --base dev --assignee Ryusse \
+     --label "type:...,area:...,sprint:..." \
+     --title "<tipo>(<scope>): ..." --body-file <descripcion.md>
    ```
-   El PR usa `.github/pull_request_template.md` (checklist de Definition of Done) y lleva `Closes #<N>`.
+   El PR **siempre**:
+   - descripción completa (qué, por qué, cómo probar) + `Closes #<N>`, con el checklist de `.github/pull_request_template.md` (Definition of Done);
+   - **asignado a `Ryusse`**;
+   - con las **labels** que correspondan (`type:*`, `epic:*`, `area:*`, `sprint:*`);
+   - **sin** atribuciones de herramientas ni `Co-authored-by` (ni en commits ni en el cuerpo).
 
 6. Review de otro integrante → **merge (squash)** → la tarjeta pasa a *Done*.
 

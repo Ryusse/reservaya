@@ -26,6 +26,9 @@ gem "jwt"
 # Pin json < 3: Rails 8.1 param parsing breaks with the json 3.x bundled in Ruby 4
 gem "json", "~> 2.21"
 
+# API docs generated from the controllers (UI en /apipie)
+gem "apipie-rails"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 

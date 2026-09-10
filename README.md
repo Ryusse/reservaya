@@ -118,6 +118,20 @@ Autenticación por **JWT**: `POST /session` devuelve un `token`; el resto de rut
 
 Listar todas: `bin/rails routes`.
 
+### Documentación interactiva
+
+Generada desde las anotaciones de los controllers con **[apipie-rails](https://github.com/Apipie/apipie-rails)**:
+
+```
+http://localhost:3000/apipie      (o :3100 si usaste `pnpm dev`)
+```
+
+Cada endpoint documenta método, params, headers y códigos de error. La doc vive
+pegada al código: al añadir/editar un endpoint, se anota con el DSL `api`,
+`param`, `header`, `returns`, `error` en el propio controller. Config en
+`config/initializers/apipie.rb` (modo `validate = false`: solo documenta, no
+valida requests).
+
 ### Ejemplo
 
 ```bash

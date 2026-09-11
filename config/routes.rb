@@ -9,13 +9,12 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   resource :session, only: [:create, :destroy]
-  resources :users, only: [:create]
-
+  resources :users
   resources :spaces
-
-  resources :reservations, only: [:index, :create, :update] do
+  resources :reservations, only: [:index, :show, :create] do
     member do
       patch :cancel
     end
   end
+  resource :dashboard, only: [:show]
 end

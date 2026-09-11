@@ -41,6 +41,17 @@ gem 'rubocop', require: false
 gem "jbuilder"
 gem "json", "~> 2.21.2"
 gem "jwt"
+gem "rswag"
+gem "simple_command"
+
+gem "rspec-rails"
+gem "factory_bot_rails"
+gem "ruby-lsp"
+
+gem "shoulda-matchers"
+gem "simplecov", require: false
+gem "retest"
+
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

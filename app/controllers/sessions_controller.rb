@@ -10,6 +10,7 @@ class SessionsController < ApiController
   error code: 401, desc: "Correo o contraseña inválidos"
   def create
     user = User.find_by(email: params[:email]&.downcase)
+
     if user&.authenticate(params[:password])
       @user = user
       @token = JsonWebToken.encode(user_id: user.id)
@@ -24,11 +25,5 @@ class SessionsController < ApiController
   returns code: 200, desc: "{ message }"
   def destroy
     render json: { message: "Sesión cerrada" }, status: :ok
-  end
-
-  private
-
-  def user_json(user)
-    { id: user.id, name: user.name, email: user.email, role: user.role }
   end
 end

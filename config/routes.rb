@@ -5,9 +5,9 @@ Rails.application.routes.draw do
 
   resource :session, only: [:create, :destroy]
   post "register", to: "registrations#create"
-  resources :users, only: [:create]
+  resources :users
   resources :spaces
-  resources :reservations, only: [:index, :create, :update] do
+  resources :reservations, only: [:index, :show, :create] do
     member do
       patch :cancel
     end
@@ -15,4 +15,5 @@ Rails.application.routes.draw do
 
   root "pages#show"
   get "*path", to: "pages#show", constraints: ->(req) { req.format.html? }, format: false
+  resource :dashboard, only: [:show]
 end

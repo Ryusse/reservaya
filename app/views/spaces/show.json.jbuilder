@@ -1,8 +1,11 @@
 json.partial! "spaces/space", space: @space
 json.date @date
-json.reservations @reservations do |r|
-  json.id r.id
-  json.start_time r.start_time
-  json.end_time r.end_time
-  json.status r.status
+json.reservations @reservations do |reservation|
+  json.id reservation.id
+  json.user_id reservation.user_id
+  json.date reservation.date
+  json.start_time reservation.start_time&.strftime("%H:%M")
+  json.end_time reservation.end_time&.strftime("%H:%M")
+  json.status reservation.status
+  json.seats_reserved reservation.seats_reserved
 end

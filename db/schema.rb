@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_09_104134) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_11_055505) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -18,12 +18,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_09_104134) do
     t.datetime "created_at", null: false
     t.date "date", null: false
     t.time "end_time", null: false
+    t.integer "seats_reserved", default: 1, null: false
     t.bigint "space_id", null: false
     t.time "start_time", null: false
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
-    t.index ["space_id", "date", "start_time"], name: "index_reservations_no_overlap", unique: true
     t.index ["space_id"], name: "index_reservations_on_space_id"
     t.index ["user_id"], name: "index_reservations_on_user_id"
   end
@@ -34,6 +34,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_09_104134) do
     t.time "end_time"
     t.string "location"
     t.string "name"
+    t.integer "space_type", default: 0, null: false
     t.time "start_time"
     t.integer "status"
     t.datetime "updated_at", null: false

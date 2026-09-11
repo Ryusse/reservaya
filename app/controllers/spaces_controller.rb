@@ -42,6 +42,7 @@ class SpacesController < ApiController
   error code: 422, desc: "Errores de validación"
   def create
     @space = Space.new(space_params)
+
     if @space.save
       render :create, status: :created
     else
@@ -74,8 +75,15 @@ class SpacesController < ApiController
   error code: 404, desc: "Espacio inexistente"
   returns code: 200, desc: "{ message }"
   def destroy
-    @space.update(status: :inactive)
-    render json: { message: "Espacio desactivado" }, status: :ok
+    unless @space.inactive?
+      return render json: { error: "Solo se pueden eliminar espacios inactivos" }, status: :unprocessable_entity
+    end
+
+    if @space.destroy
+      render json: { message: "Espacio eliminado correctamente" }, status: :ok
+    else
+      render json: { errors: @space.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   private
@@ -85,6 +93,6 @@ class SpacesController < ApiController
   end
 
   def space_params
-    params.require(:space).permit(:name, :capacity, :location, :start_time, :end_time, :status)
+    params.require(:space).permit(:name, :capacity, :location, :start_time, :end_time, :status, :space_type)
   end
 end

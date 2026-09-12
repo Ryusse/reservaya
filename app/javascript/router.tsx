@@ -7,11 +7,13 @@ export type RouterContext = {
   auth: SessionInfo
 }
 
+const initialAuth: SessionInfo = { user: null, role: null, isAuthenticated: false }
+
 export const router = createRouter({
   routeTree,
   defaultPreload: 'intent',
   scrollRestoration: true,
-  context: { auth: undefined as unknown as SessionInfo },
+  context: { auth: initialAuth },
 })
 
 declare module '@tanstack/react-router' {

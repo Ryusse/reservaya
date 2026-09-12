@@ -128,20 +128,30 @@ class SpacesControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
-  test "DELETE /spaces/:id deactivates the space without deleting it" do
-    space = spaces(:sala_a)
+  test "DELETE /spaces/:id on an active space is rejected" do
+    space = spaces(:sala_b)
 
     assert_no_difference "Space.count" do
       delete space_url(space), headers: auth_headers(@admin)
     end
 
+    assert_response :unprocessable_entity
+    assert_equal "active", space.reload.status
+  end
+
+  test "DELETE /spaces/:id removes an already inactive space" do
+    space = spaces(:inactiva)
+
+    assert_difference "Space.count", -1 do
+      delete space_url(space), headers: auth_headers(@admin)
+    end
+
     assert_response :success
-    assert_equal "inactive", space.reload.status
   end
 
   test "a deactivated space no longer appears in GET /spaces" do
     space = spaces(:sala_a)
-    delete space_url(space), headers: auth_headers(@admin)
+    patch space_url(space), headers: auth_headers(@admin), params: { space: { status: "inactive" } }
 
     get spaces_url, headers: auth_headers(@member)
 

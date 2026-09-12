@@ -20,6 +20,6 @@ export const spacesService = {
   },
 
   async deactivate(id: number): Promise<void> {
-    await http.delete(`/spaces/${id}`)
+    await http.patch(`/spaces/${id}`, { space: { status: 'inactive' } })
   },
 }

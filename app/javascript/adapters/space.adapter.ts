@@ -10,18 +10,14 @@ export type SpaceResponse = {
   status: string
 }
 
-function toHourMinute(value: string | null): string | null {
-  return value ? value.slice(11, 16) : null
-}
-
 export function toSpace(data: SpaceResponse): Space {
   return {
     id: data.id,
     name: data.name,
     capacity: data.capacity,
     location: data.location,
-    startTime: toHourMinute(data.start_time),
-    endTime: toHourMinute(data.end_time),
+    startTime: data.start_time,
+    endTime: data.end_time,
     status: (data.status === 'inactive' ? 'inactive' : 'active') as SpaceStatus,
   }
 }

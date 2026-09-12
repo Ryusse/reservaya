@@ -23,8 +23,8 @@ export function App() {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: router is a stable singleton; re-run only when auth changes
   useEffect(() => {
-    router.invalidate()
-  }, [auth.isAuthenticated, auth.role])
+    if (status === 'ready') router.invalidate()
+  }, [auth.isAuthenticated, auth.role, status])
 
   if (status === 'loading') {
     return (

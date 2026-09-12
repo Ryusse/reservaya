@@ -5,6 +5,8 @@ class ApiController < ActionController::API
 
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
+  helper_method :current_user
+
   private
 
   def not_found

@@ -7,7 +7,7 @@ Project context for Claude Code. Keep it short and up to date. **This file is al
 **ReservaYa** — web app for booking physical spaces.
 Backend **Rails 8.1** (REST API + JWT) · Frontend **React + TypeScript + Vite** (decoupled SPA) · **PostgreSQL** (in Docker).
 
-Architecture: REST API and frontend as independent layers (RNF07). React consumes the API with `Authorization: Bearer <token>`.
+Architecture: REST API and frontend as independent layers (RNF07). Auth: `POST /session` sets an **httpOnly encrypted cookie** (`reservaya_session`) carrying the JWT (24h); the SPA never handles the token. `Authorization: Bearer <token>` still works as a fallback (API clients, tests). On boot the SPA calls `GET /session` to hydrate the current user.
 
 ## Running it
 
@@ -30,8 +30,8 @@ Everything runs on the host machine, not in Docker. Docker only runs PostgreSQL.
 ## Backend
 
 - `app/controllers/application_controller.rb` — `ActionController::Base`. Serves the SPA shell (`PagesController#show` -> `app/views/pages/show.html.erb`).
-- `app/controllers/api_controller.rb` — `ActionController::API`, JWT auth (`require_login`, `require_admin`, `current_user`). **Every API controller inherits from here.**
-- `app/services/json_web_token.rb` — token encode/decode.
+- `app/controllers/api_controller.rb` — `ActionController::API` + `Cookies`, JWT auth (`require_login`, `require_admin`, `current_user`, `set/clear_session_cookie`; reads the JWT from the `reservaya_session` encrypted cookie or the `Authorization` header). **Every API controller inherits from here.**
+- `app/services/json_web_token.rb` — token encode/decode (HS256, 24h `exp`).
 - API views: `app/views/**/*.json.jbuilder`.
 - API docs generated from annotations: **`/apipie`** (`apipie-rails` gem, `config/initializers/apipie.rb`, `validate=false`). When touching an endpoint, update its `api ... / param ...` block.
 - `config.api_only = false` (serves the API plus the HTML shell).
@@ -45,10 +45,10 @@ Layered, dependencies point inward — `routes -> pages -> hooks -> services -> 
 |---|---|
 | `models/` | domain types (User, Session, Space, Reservation) |
 | `adapters/` | map raw jbuilder responses <-> models (dates, enums, snake -> camel) |
-| `lib/` | `http` (axios + Bearer interceptor, 401/403 handling), config |
+| `lib/` | `http` (axios, `withCredentials` for the session cookie, 401/403 handling), config |
 | `services/` | business logic + API calls |
 | `hooks/` | `useAuth`, `useSpaces`, … |
-| `stores/` | global state with **Zustand** (session: user, token, role) |
+| `stores/` | global state with **Zustand** (session: user, role, load status — no token) |
 | `components/ui/` | **Chakra UI** snippets (`provider`, `color-mode`, `toaster`, `tooltip`). Feature components: `components/<module>/` |
 | `pages/` | route containers |
 | `routes/` | **TanStack Router** tree (file-based) + role guards |

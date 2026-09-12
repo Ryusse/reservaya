@@ -6,12 +6,12 @@ import { useSessionStore } from '@/stores/session.store'
 
 export function useLogout() {
   const navigate = useNavigate()
-  const clearSession = useSessionStore((s) => s.clearSession)
+  const clearUser = useSessionStore((s) => s.clearUser)
 
   return useMutation({
     mutationFn: () => authService.logout(),
     onSettled: () => {
-      clearSession()
+      clearUser()
       navigate({ to: '/login' })
     },
   })

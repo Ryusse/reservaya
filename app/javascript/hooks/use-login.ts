@@ -7,13 +7,13 @@ import { useSessionStore } from '@/stores/session.store'
 
 export function useLogin() {
   const navigate = useNavigate()
-  const setSession = useSessionStore((s) => s.setSession)
+  const setUser = useSessionStore((s) => s.setUser)
 
   return useMutation({
     mutationFn: (credentials: Credentials) => authService.login(credentials),
-    onSuccess: (session) => {
-      setSession(session)
-      navigate({ to: session.user.role === Role.Admin ? '/admin' : '/' })
+    onSuccess: (user) => {
+      setUser(user)
+      navigate({ to: user.role === Role.Admin ? '/admin' : '/' })
     },
   })
 }

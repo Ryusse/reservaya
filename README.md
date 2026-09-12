@@ -13,7 +13,7 @@ App de reservas de espacios. **Rails 8.1** (backend API + página Inertia) + **V
 
 | Herramienta | Versión | Para qué |
 |---|---|---|
-| Ruby | `3.4.10` (ver `.ruby-version`) | Rails |
+| Ruby | `4.0.6` (ver `.ruby-version`) | Rails |
 | Node.js | `>= 20` | Vite / React |
 | pnpm | `>= 9` | dependencias del frontend |
 | Docker Desktop | reciente | correr PostgreSQL |

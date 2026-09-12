@@ -4,14 +4,14 @@ import type { Space } from '@/models/space'
 import { toSpace, toSpaceInput, toSpacePayload } from './space.adapter'
 
 describe('space.adapter', () => {
-  it('toSpace maps snake_case and trims ISO datetimes to HH:MM', () => {
+  it('toSpace maps snake_case and passes through HH:MM times', () => {
     const result = toSpace({
       id: 1,
       name: 'Sala A',
       capacity: 10,
       location: 'Piso 2',
-      start_time: '2000-01-01T08:00:00.000Z',
-      end_time: '2000-01-01T20:00:00.000Z',
+      start_time: '08:00',
+      end_time: '20:00',
       status: 'active',
     })
 

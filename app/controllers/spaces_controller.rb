@@ -67,12 +67,13 @@ class SpacesController < ApiController
     end
   end
 
-  api :DELETE, "/spaces/:id", "Desactivar un espacio (soft delete, solo admin)"
+  api :DELETE, "/spaces/:id", "Eliminar definitivamente un espacio ya inactivo (solo admin)"
   header "Authorization", "Bearer <token>", required: true
   param :id, :number, required: true
   error code: 401, desc: "No autenticado (falta token)"
   error code: 403, desc: "No autorizado (no es admin)"
   error code: 404, desc: "Espacio inexistente"
+  error code: 422, desc: "El espacio sigue activo (desactívalo primero con PATCH status=inactive)"
   returns code: 200, desc: "{ message }"
   def destroy
     unless @space.inactive?

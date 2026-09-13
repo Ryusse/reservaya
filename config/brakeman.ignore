@@ -1,0 +1,48 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "a7d61c42c5096b3178fd386a0fe32e958c9a303896769645d29f3a58c628734f",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/users_controller.rb",
+      "line": 71,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:user).permit(:name, :email, :password, :password_confirmation, :role)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UsersController",
+        "method": "admin_user_params"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [915],
+      "note": "Falso positivo: admin_user_params solo se usa en #create, que esta protegido por before_action :require_admin. Permitir :role ahi es intencional (un admin da de alta usuarios con el rol que corresponda)."
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "bad44c99acb891f1a077b78d86a52a70a8de717cfd6315cd50e6222786459908",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/users_controller.rb",
+      "line": 75,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:user).permit(:name, :email, :password, :password_confirmation, :role)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UsersController",
+        "method": "admin_update_user_params"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [915],
+      "note": "Falso positivo: admin_update_user_params solo se usa en #update cuando current_user.admin? es true (chequeo inline en la accion); un usuario no-admin usa user_password_params, que no incluye :role."
+    }
+  ],
+  "updated": "2026-09-13 01:20:46 +0000",
+  "brakeman_version": "8.0.6"
+}

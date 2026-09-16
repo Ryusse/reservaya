@@ -1,0 +1,118 @@
+name: Project sync
+
+# Moves the card for the linked issue on GitHub Project #10 (ReservaYa)
+# through Status = Backlog -> Todo -> In Progress -> In Review -> Done as
+# the branch/PR actually progresses. Never moves a card backwards.
+#
+# Backlog and "plan/tasks ready" (Todo) come from what a push adds relative
+# to dev: a tasks.md under specs/ with no real code yet means Todo; any
+# change outside specs/.specify/docs means implementation started (In
+# Progress). In Review / Done come from the PR lifecycle, matching this
+# project's own convention of "Closes #N" / "Refs #N" in the PR body
+# (docs/gitflow.md) - since dev is not the default branch, GitHub's own
+# closing-keyword auto-link does not fire, so we parse it ourselves.
+#
+# Requires a repo secret PROJECTS_TOKEN: a PAT (classic, scope "project"
+# + "repo") belonging to an account with write access to project 10. The
+# default GITHUB_TOKEN cannot write to a user-owned Project.
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - dev
+  pull_request:
+    types: [opened, ready_for_review, closed]
+
+jobs:
+  on-push:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine phase from diff vs dev
+        id: diff
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          git fetch origin dev
+          CHANGED="$(git diff --name-only "origin/dev...$BRANCH" || true)"
+          echo "Changed files vs dev:"
+          echo "$CHANGED"
+          HAS_TASKS=no
+          HAS_CODE=no
+          if grep -qE '^specs/.*tasks\.md$' <<<"$CHANGED"; then HAS_TASKS=yes; fi
+          if grep -vE '^(specs/|\.specify/|docs/)' <<<"$CHANGED" | grep -q .; then HAS_CODE=yes; fi
+          echo "has_tasks=$HAS_TASKS" >> "$GITHUB_OUTPUT"
+          echo "has_code=$HAS_CODE" >> "$GITHUB_OUTPUT"
+
+      - name: Find linked issue and move card
+        if: steps.diff.outputs.has_tasks == 'yes' || steps.diff.outputs.has_code == 'yes'
+        env:
+          GH_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
+          BRANCH: ${{ github.ref_name }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          HAS_CODE: ${{ steps.diff.outputs.has_code }}
+          HAS_TASKS: ${{ steps.diff.outputs.has_tasks }}
+        run: |
+          source .github/scripts/project-sync.sh
+          NUM="$(find_linked_issue "$REPO_OWNER" "$REPO_NAME" "$BRANCH")"
+          if [ -z "$NUM" ]; then
+            echo "no issue linked to branch $BRANCH (run 'gh issue develop' to link one) - skipping"
+            exit 0
+          fi
+          if [ "$HAS_CODE" = "yes" ]; then
+            move_issue "$REPO_OWNER" "$REPO_NAME" "$NUM" "In Progress"
+          elif [ "$HAS_TASKS" = "yes" ]; then
+            move_issue "$REPO_OWNER" "$REPO_NAME" "$NUM" "Todo"
+          fi
+
+  on-pr-review:
+    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'ready_for_review')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move referenced issues to In Review
+        env:
+          GH_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          PR_TEXT: ${{ github.event.pull_request.title }} ${{ github.event.pull_request.body }}
+        run: |
+          source .github/scripts/project-sync.sh
+          found=0
+          while read -r owner repo num; do
+            [ -z "$num" ] && continue
+            found=1
+            move_issue "$owner" "$repo" "$num" "In Review"
+          done < <(extract_issue_refs "$PR_TEXT" "$REPO_OWNER" "$REPO_NAME")
+          if [ "$found" = 0 ]; then
+            echo "no Closes/Fixes/Refs #N found in PR title/body - nothing to move"
+          fi
+
+  on-pr-merge:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move referenced issues to Done
+        env:
+          GH_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          PR_TEXT: ${{ github.event.pull_request.title }} ${{ github.event.pull_request.body }}
+        run: |
+          source .github/scripts/project-sync.sh
+          found=0
+          while read -r owner repo num; do
+            [ -z "$num" ] && continue
+            found=1
+            move_issue "$owner" "$repo" "$num" "Done"
+          done < <(extract_issue_refs "$PR_TEXT" "$REPO_OWNER" "$REPO_NAME")
+          if [ "$found" = 0 ]; then
+            echo "no Closes/Fixes/Refs #N found in PR title/body - nothing to move"
+          fi

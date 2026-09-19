@@ -22,3 +22,12 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+## Datos de ejemplo (seed)
+
+`bin/rails db:seed` crea un administrador y algunos espacios de ejemplo para desarrollo/QA:
+
+- Admin: `admin@reservaya.local` / `password123`
+- Espacios: uno privado, uno compartido y uno inactivo, todos con horario 08:00-18:00
+
+Es idempotente — se puede correr varias veces sin duplicar registros.

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_11_055505) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_18_022248) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -36,7 +36,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_11_055505) do
     t.string "name"
     t.integer "space_type", default: 0, null: false
     t.time "start_time"
-    t.integer "status"
+    t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
     t.check_constraint "capacity > 0", name: "capacity_positive"
   end

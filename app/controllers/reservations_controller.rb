@@ -1,7 +1,7 @@
 class ReservationsController < ApplicationController
   before_action :require_login
-  before_action :set_reservation, only: [:show, :cancel]
-  before_action :authorize_owner_or_admin, only: [:show, :cancel]
+  before_action :set_reservation, only: [:show, :update, :cancel]
+  before_action :authorize_owner_or_admin, only: [:show, :update, :cancel]
 
   def index
     @reservations =
@@ -20,7 +20,17 @@ class ReservationsController < ApplicationController
     @reservation = current_user.reservations.new(reservation_params)
 
     if @reservation.save
+      NotificationMailer.reservation_created(current_user, @reservation).deliver_later
+
       render :create, status: :created
+    else
+      render json: { errors: @reservation.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    if @reservation.update(reservation_params)
+      render :update, status: :ok
     else
       render json: { errors: @reservation.errors.full_messages }, status: :unprocessable_entity
     end

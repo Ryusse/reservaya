@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Tu reserva fue creada correctamente, <%= @user.name %>!</h1>
+    <p>
+      Has creado una nueva reserva en Reservaya.
+      Los detalles de tu reserva son los siguientes:<br>
+      Fecha: <%= @reservation.date %><br>
+      Hora: <%= @reservation.start_time %><br>
+      Número de personas: <%= @reservation.seats_reserved %><br>
+    </p>
+    <p>Gracias por usar Reservaya y que disfrutes tu experiencia!</p>
+  </body>
+</html>

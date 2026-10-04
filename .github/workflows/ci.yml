@@ -84,10 +84,12 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432
-          # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare && bundle exec rspec
+          DB_HOST: localhost
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/reservaya_test
+          QUEUE_DATABASE_URL: postgres://postgres:postgres@localhost:5432/reservaya_test_queue
+        run: bin/rails db:create db:test:prepare && bundle exec rspec
 
   docker_build:
     runs-on: ubuntu-latest

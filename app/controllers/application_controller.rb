@@ -1,4 +1,8 @@
 class ApplicationController < ActionController::API
+  include ActionController::Cookies
+
+  SESSION_COOKIE = :reservaya_session
+
   private
 
   def current_user
@@ -6,18 +10,38 @@ class ApplicationController < ActionController::API
   end
 
   def require_login
-    header = request.headers["Authorization"]
-    token = header&.split(" ")&.last
+    token = session_token
+
+    return render json: { error: "No autorizado" }, status: :unauthorized unless token
+
     decoded = JsonWebToken.decode(token)
 
-    if decoded.present?
-      @current_user = User.find_by(id: decoded[:user_id])
-    end
+    return render json: { error: "No autorizado" }, status: :unauthorized unless decoded
 
-    render json: { error: "No autorizado" }, status: :unauthorized unless current_user
+    @current_user = User.find_by(id: decoded[:user_id])
+    render json: { error: "No autorizado" }, status: :unauthorized unless @current_user
   end
 
   def require_admin
     render json: { error: "Acceso solo para administradores" }, status: :forbidden unless current_user&.admin?
+  end
+
+  def session_token
+    cookies.encrypted[SESSION_COOKIE].presence ||
+      request.headers["Authorization"]&.split(" ")&.last
+  end
+
+  def set_session_cookie(token)
+    cookies.encrypted[SESSION_COOKIE] = {
+      value: token,
+      httponly: true,
+      secure: Rails.env.production?,
+      same_site: Rails.env.production? ? :none : :lax,
+      expires: 24.hours
+    }
+  end
+
+  def clear_session_cookie
+    cookies.delete(SESSION_COOKIE, secure: true, same_site: :none)
   end
 end

@@ -11,7 +11,7 @@ RSpec.describe "db/seeds.rb" do
     admin = User.find_by(email: "admin@reservaya.local")
     expect(admin).to be_present
     expect(admin.role).to eq("admin")
-    expect(admin.authenticate("password123")).to eq(admin)
+    expect(admin.authenticate("Password123")).to eq(admin)
   end
 
   it "creates example spaces covering the main scenarios" do

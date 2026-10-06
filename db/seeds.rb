@@ -1,6 +1,6 @@
 admin = User.find_or_create_by!(email: "admin@reservaya.local") do |user|
   user.name = "Admin"
-  user.password = "password123"
+  user.password = "Password123"
   user.role = :admin
 end
 admin.update!(role: :admin) unless admin.admin?

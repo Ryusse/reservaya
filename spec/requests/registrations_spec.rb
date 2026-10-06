@@ -7,7 +7,7 @@ RSpec.describe "Registrations", type: :request do
         user: {
           name: "Test User",
           email: "test@example.com",
-          password: "password123"
+          password: "Password123"
         }
       }
     end

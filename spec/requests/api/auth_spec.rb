@@ -22,7 +22,7 @@ RSpec.describe 'Auth API', type: :request do
       }
 
       response '201', 'Usuario creado. Retorna cookie de sesión.' do
-        let(:user) { { user: { name: 'Juan', email: 'juan@test.com', password: 'password123' } } }
+        let(:user) { { user: { name: 'Juan', email: 'juan@test.com', password: 'Password123' } } }
         run_test!
       end
 
@@ -49,9 +49,9 @@ RSpec.describe 'Auth API', type: :request do
 
       response '200', 'Sesión iniciada. Retorna cookie de sesión.' do
         before do
-          User.create!(name: "Test", email: "test@test.com", password: "password123", role: :user)
+          User.create!(name: "Test", email: "test@test.com", password: "Password123", role: :user)
         end
-        let(:credentials) { { email: 'test@test.com', password: 'password123' } }
+        let(:credentials) { { email: 'test@test.com', password: 'Password123' } }
         run_test!
       end
 
@@ -68,8 +68,8 @@ RSpec.describe 'Auth API', type: :request do
 
       response '200', 'Usuario actual' do
         before do
-          user = User.create!(name: "Test", email: "test@test.com", password: "password123", role: :user)
-          post "/session", params: { email: user.email, password: "password123" }, as: :json
+          user = User.create!(name: "Test", email: "test@test.com", password: "Password123", role: :user)
+          post "/session", params: { email: user.email, password: "Password123" }, as: :json
         end
         run_test!
       end
@@ -86,8 +86,8 @@ RSpec.describe 'Auth API', type: :request do
 
       response '200', 'Sesión cerrada' do
         before do
-          user = User.create!(name: "Test", email: "test@test.com", password: "password123", role: :user)
-          post "/session", params: { email: user.email, password: "password123" }, as: :json
+          user = User.create!(name: "Test", email: "test@test.com", password: "Password123", role: :user)
+          post "/session", params: { email: user.email, password: "Password123" }, as: :json
         end
         run_test!
       end

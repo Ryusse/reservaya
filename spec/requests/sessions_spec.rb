@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "Sessions", type: :request do
-  let(:user) { User.create!(name: "Session User", email: "session@example.com", password: "password123", role: :user) }
+  let(:user) { User.create!(name: "Session User", email: "session@example.com", password: "Password123", role: :user) }
 
   describe "POST /session" do
     context "with valid credentials" do
       it "returns user data and sets a cookie" do
-        post "/session", params: { email: user.email, password: "password123" }, as: :json
+        post "/session", params: { email: user.email, password: "Password123" }, as: :json
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body["user"]["email"]).to eq(user.email)
         expect(response.cookies["reservaya_session"]).to be_present
@@ -24,7 +24,7 @@ RSpec.describe "Sessions", type: :request do
 
   describe "GET /session" do
     it "returns the current user when authenticated via cookie" do
-      post "/session", params: { email: user.email, password: "password123" }, as: :json
+      post "/session", params: { email: user.email, password: "Password123" }, as: :json
       cookie = response.headers["Set-Cookie"]
 
       get "/session", headers: { "Cookie" => cookie }, as: :json
@@ -47,7 +47,7 @@ RSpec.describe "Sessions", type: :request do
 
   describe "DELETE /session" do
     it "clears the session cookie" do
-      post "/session", params: { email: user.email, password: "password123" }, as: :json
+      post "/session", params: { email: user.email, password: "Password123" }, as: :json
       cookie = response.headers["Set-Cookie"]
 
       delete "/session", headers: { "Cookie" => cookie }, as: :json

@@ -34,3 +34,4 @@
 # Ignore graphify's generated knowledge graph (regenerate with /graphify --update).
 /graphify-out
 
+.idea/

@@ -21,8 +21,14 @@ class User < ApplicationRecord
 
   enum :role, { user: 0, admin: 1 }
 
-  validates :name, presence: true
+  validates :name, presence: true, length: { maximum: 50 },
+            format: { without: /[<>]/, message: "contiene caracteres inválidos" }
+  
   validates :email, presence: true, uniqueness: { case_sensitive: false },
+            length: { maximum: 100 },
             format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password, length: { minimum: 6 }, if: -> { new_record? || password.present? }
+            
+  validates :password, length: { minimum: 6, maximum: 64 }, 
+            format: { with: /(?=.*[A-Z])(?=.*[0-9])/, message: "debe contener al menos una letra mayúscula y un número" },
+            if: -> { new_record? || password.present? }
 end

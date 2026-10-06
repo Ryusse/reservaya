@@ -1,6 +1,8 @@
-version: '2.4'
+name: reservaya-backend
+
 services:
   api:
+    container_name: reservaya-backend-api
     build:
       context: .
       dockerfile: ./Dockerfile-dev
@@ -8,8 +10,9 @@ services:
       - "3301:3000"
     volumes:
       - .:/app
-    command: /bin/sh -c "while sleep 1000; do :; done" 
+    command: bash -c "rm -f tmp/pids/server.pid && bin/rails server -b 0.0.0.0" 
   postgres:
+    container_name: reservaya-backend-postgres
     image: postgres:18.6
     stop_grace_period: 1m
     stop_signal: SIGINT
@@ -27,4 +30,4 @@ services:
           size: 1073741824
 
 volumes:
-  postgres: 
+  postgres:

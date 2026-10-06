@@ -1,0 +1,87 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/register":
+    post:
+      summary: Registro de usuario cliente
+      tags:
+      - Autenticación
+      parameters: []
+      responses:
+        '201':
+          description: Usuario creado. Retorna cookie de sesión.
+        '422':
+          description: Parámetros inválidos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    password:
+                      type: string
+                  required:
+                  - name
+                  - email
+                  - password
+  "/session":
+    post:
+      summary: Iniciar sesión
+      tags:
+      - Autenticación
+      parameters: []
+      responses:
+        '200':
+          description: Sesión iniciada. Retorna cookie de sesión.
+        '401':
+          description: Credenciales inválidas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
+    get:
+      summary: Obtener usuario actual
+      tags:
+      - Autenticación
+      security:
+      - bearer_auth: []
+        cookie_auth: []
+      responses:
+        '200':
+          description: Usuario actual
+        '401':
+          description: No autorizado
+    delete:
+      summary: Cerrar sesión
+      tags:
+      - Autenticación
+      security:
+      - bearer_auth: []
+        cookie_auth: []
+      responses:
+        '200':
+          description: Sesión cerrada
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

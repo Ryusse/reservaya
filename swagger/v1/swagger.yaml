@@ -80,6 +80,50 @@ paths:
       responses:
         '200':
           description: Sesión cerrada
+  "/reservations":
+    post:
+      summary: Crear una reserva
+      tags:
+      - Reservas
+      security:
+      - bearer_auth: []
+        cookie_auth: []
+      parameters: []
+      responses:
+        '201':
+          description: Reserva creada
+        '422':
+          description: El horario ya está reservado
+        '401':
+          description: No autenticado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reservation:
+                  type: object
+                  properties:
+                    space_id:
+                      type: integer
+                    date:
+                      type: string
+                      example: '2026-10-10'
+                    start_time:
+                      type: string
+                      example: '10:00'
+                    end_time:
+                      type: string
+                      example: '12:00'
+                    seats_reserved:
+                      type: integer
+                  required:
+                  - space_id
+                  - date
+                  - start_time
+                  - end_time
+                  - seats_reserved
   "/spaces/{id}":
     get:
       summary: Obtener disponibilidad de un espacio

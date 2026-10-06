@@ -30,7 +30,5 @@ module App
     config.api_only = true
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use Rack::Attack
-
-
   end
 end

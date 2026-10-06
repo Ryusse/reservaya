@@ -39,7 +39,8 @@ gem "bcrypt"
 gem "annotaterb"
 gem 'rubocop', require: false
 gem "jbuilder"
-gem "json", "~> 3.0.2"
+# json 3.x quitó quirks_mode, que json-schema (usado por rswag) todavía pasa a JSON.parse
+gem "json", "~> 2.21"
 gem "jwt"
 gem "rswag"
 gem "simple_command"

@@ -29,6 +29,6 @@ class User < ApplicationRecord
             format: { with: URI::MailTo::EMAIL_REGEXP }
             
   validates :password, length: { minimum: 6, maximum: 64 }, 
-            format: { with: /(?=.*[A-Z])(?=.*[0-9])/, message: "debe contener al menos una letra mayúscula y un número" },
+            format: { with: /\A(?=.*[A-Z])(?=.*[0-9]).*\z/m, message: "debe contener al menos una letra mayúscula y un número" },
             if: -> { new_record? || password.present? }
 end

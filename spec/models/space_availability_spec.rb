@@ -26,7 +26,7 @@ RSpec.describe Space, type: :model do
       it "returns three blocks: free, partial, free" do
         blocks = space.availability_blocks(date)
         expect(blocks.length).to eq(3)
-        
+
         expect(blocks[0]).to include(start_time: "08:00", end_time: "10:00", status: "free", seats_available: 10)
         expect(blocks[1]).to include(start_time: "10:00", end_time: "12:00", status: "partial", seats_available: 6)
         expect(blocks[2]).to include(start_time: "12:00", end_time: "18:00", status: "free", seats_available: 10)
@@ -41,13 +41,13 @@ RSpec.describe Space, type: :model do
 
       it "calculates capacity correctly for the overlapping period" do
         blocks = space.availability_blocks(date)
-        
+
         # 08:00-09:00 -> free (10)
         # 09:00-10:00 -> partial (4) [6 reserved]
         # 10:00-11:00 -> full (0) [10 reserved]
         # 11:00-12:00 -> partial (6) [4 reserved]
         # 12:00-18:00 -> free (10)
-        
+
         expect(blocks.find { |b| b[:start_time] == "10:00" }).to include(
           end_time: "11:00", status: "full", seats_available: 0
         )

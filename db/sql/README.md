@@ -27,6 +27,14 @@ psql "$DATABASE_URL" -v email='nuevo@reservaya.local' -v name='Nombre' -v passwo
 | `spaces.space_type` | `0` private_space, `1` shared_space |
 | `reservations.status` | `0` confirmed, `1` cancelled |
 
+## psql vs. cliente gráfico
+
+Los scripts que se ejecutan con `-v nombre=valor` (casi todos los de `admin/`, `maintenance/` y
+`data/01`) **solo funcionan con `psql`**: usan variables (`:'email'`) y comandos (`\set`, `\echo`) que
+otros clientes no entienden y dan `syntax error at or near ":"` (o cerca de `LIMIT`, `\`...).
+Para clientes gráficos usa los de SQL plano: `data/02`, `data/03`, `data/04`, `maintenance/05` y los de `audit/`
+que no piden parámetros (`01`, `02`, `03`, `07`, `08`).
+
 ## Gotchas
 
 - **Email en minúsculas**: el login hace `downcase` del email; un usuario guardado con mayúsculas
@@ -63,3 +71,4 @@ psql "$DATABASE_URL" -v email='nuevo@reservaya.local' -v name='Nombre' -v passwo
 | | `02_set_space_status.sql` | Activa/desactiva un espacio |
 | | `03_cancel_space_reservations_on_date.sql` | Cancela las reservas de un espacio en una fecha |
 | | `04_delete_user_reservations.sql` | **Borra** las reservas de un usuario (todas, o solo futuras con `only_future=1`) |
+| | `05_delete_user_reservations_plain.sql` | Lo mismo que el 04 pero en SQL plano (para clientes gráficos): se edita el email dentro del archivo |

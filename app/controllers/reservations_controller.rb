@@ -20,7 +20,7 @@ class ReservationsController < ApplicationController
     @reservation = current_user.reservations.new(reservation_params)
 
     if @reservation.save
-      NotificationMailer.reservation_created(current_user, @reservation).deliver_later
+      notify_reservation_created
 
       render :create, status: :created
     else
@@ -45,6 +45,14 @@ class ReservationsController < ApplicationController
   end
 
   private
+
+  # El correo es secundario: si falla el encolado (p. ej. cola o SMTP sin configurar),
+  # la reserva ya está guardada y no debe responder 500.
+  def notify_reservation_created
+    NotificationMailer.reservation_created(current_user, @reservation).deliver_later
+  rescue StandardError => e
+    Rails.logger.error("[reservations] No se pudo encolar el correo de la reserva #{@reservation.id}: #{e.class}: #{e.message}")
+  end
 
   def set_reservation
     @reservation = Reservation.find(params[:id])

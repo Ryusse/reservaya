@@ -39,7 +39,7 @@ gem "bcrypt"
 gem "annotaterb"
 gem 'rubocop', require: false
 gem "jbuilder"
-gem "json", "~> 2.21.2"
+gem "json", "~> 3.0.2"
 gem "jwt"
 gem "rswag"
 gem "simple_command"

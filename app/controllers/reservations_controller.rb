@@ -17,11 +17,22 @@ class ReservationsController < ApplicationController
   end
 
   def create
+    @space = Space.find_by(id: reservation_params[:space_id])
+
+    unless @space
+      return render json: { errors: ["Espacio no encontrado"] }, status: :unprocessable_entity
+    end
+
     @reservation = current_user.reservations.new(reservation_params)
 
-    if @reservation.save
-      NotificationMailer.reservation_created(current_user, @reservation).deliver_later
+    success = false
+    Space.transaction do
+      @space.lock!
+      success = @reservation.save
+    end
 
+    if success
+      NotificationMailer.reservation_created(current_user, @reservation).deliver_later
       render :create, status: :created
     else
       render json: { errors: @reservation.errors.full_messages }, status: :unprocessable_entity

@@ -80,6 +80,93 @@ paths:
       responses:
         '200':
           description: Sesión cerrada
+  "/spaces/{id}":
+    get:
+      summary: Obtener disponibilidad de un espacio
+      tags:
+      - Espacios
+      security:
+      - bearer_auth: []
+        cookie_auth: []
+      parameters:
+      - name: id
+        in: path
+        description: ID del espacio
+        required: true
+        schema:
+          type: integer
+      - name: date
+        in: query
+        required: false
+        description: Fecha de consulta (YYYY-MM-DD). Por defecto hoy.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Espacio encontrado y bloques de disponibilidad calculados
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  capacity:
+                    type: integer
+                  location:
+                    type: string
+                  start_time:
+                    type: string
+                  end_time:
+                    type: string
+                  status:
+                    type: string
+                  space_type:
+                    type: string
+                  date:
+                    type: string
+                  available:
+                    type: boolean
+                  availability:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        start_time:
+                          type: string
+                        end_time:
+                          type: string
+                        status:
+                          type: string
+                          enum:
+                          - free
+                          - partial
+                          - full
+                        seats_available:
+                          type: integer
+                  reservations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        user_id:
+                          type: integer
+                        date:
+                          type: string
+                        start_time:
+                          type: string
+                        end_time:
+                          type: string
+                        status:
+                          type: string
+                        seats_reserved:
+                          type: integer
+        '404':
+          description: Espacio no encontrado
 servers:
 - url: https://{defaultHost}
   variables:

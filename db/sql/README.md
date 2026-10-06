@@ -32,7 +32,7 @@ psql "$DATABASE_URL" -v email='nuevo@reservaya.local' -v name='Nombre' -v passwo
 Los scripts que se ejecutan con `-v nombre=valor` (casi todos los de `admin/`, `maintenance/` y
 `data/01`) **solo funcionan con `psql`**: usan variables (`:'email'`) y comandos (`\set`, `\echo`) que
 otros clientes no entienden y dan `syntax error at or near ":"` (o cerca de `LIMIT`, `\`...).
-Para clientes gráficos usa los de SQL plano: `data/02`, `data/03`, `data/04`, `maintenance/05` y los de `audit/`
+Para clientes gráficos usa los de SQL plano: `data/02`, `data/03`, `data/04`, `maintenance/04` y los de `audit/`
 que no piden parámetros (`01`, `02`, `03`, `07`, `08`).
 
 ## Gotchas
@@ -70,5 +70,4 @@ que no piden parámetros (`01`, `02`, `03`, `07`, `08`).
 | `maintenance/` | `01_cancel_user_future_reservations.sql` | Cancela reservas futuras de un usuario |
 | | `02_set_space_status.sql` | Activa/desactiva un espacio |
 | | `03_cancel_space_reservations_on_date.sql` | Cancela las reservas de un espacio en una fecha |
-| | `04_delete_user_reservations.sql` | **Borra** las reservas de un usuario (todas, o solo futuras con `only_future=1`) |
-| | `05_delete_user_reservations_plain.sql` | Borra todas las reservas de un usuario por id, en SQL plano (para clientes gráficos) |
+| | `04_delete_user_reservations.sql` | Borra todas las reservas de un usuario por id (SQL plano) |

@@ -21,7 +21,7 @@ RSpec.describe "Registrations", type: :request do
         expect(response).to have_http_status(:created)
         expect(response.parsed_body["user"]["name"]).to eq("Test User")
         expect(response.parsed_body["user"]["role"]).to eq("user")
-        
+
         # Check cookie
         expect(response.cookies["reservaya_session"]).to be_present
       end

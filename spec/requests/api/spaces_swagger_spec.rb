@@ -5,8 +5,8 @@ RSpec.describe 'Spaces API', type: :request do
     get 'Obtener disponibilidad de un espacio' do
       tags 'Espacios'
       produces 'application/json'
-      security [bearer_auth: [], cookie_auth: []]
-      
+      security [ bearer_auth: [], cookie_auth: [] ]
+
       parameter name: :id, in: :path, type: :integer, description: 'ID del espacio'
       parameter name: :date, in: :query, type: :string, required: false, description: 'Fecha de consulta (YYYY-MM-DD). Por defecto hoy.'
 
@@ -30,7 +30,7 @@ RSpec.describe 'Spaces API', type: :request do
                 properties: {
                   start_time: { type: :string },
                   end_time: { type: :string },
-                  status: { type: :string, enum: ['free', 'partial', 'full'] },
+                  status: { type: :string, enum: [ 'free', 'partial', 'full' ] },
                   seats_available: { type: :integer }
                 }
               }
@@ -54,23 +54,23 @@ RSpec.describe 'Spaces API', type: :request do
 
         let(:id) { create(:space, status: :active).id }
         let(:date) { Date.current.to_s }
-        
+
         before do
           user = User.create!(name: "Test", email: "test@test.com", password: "Password123", role: :user)
           post "/session", params: { email: user.email, password: "Password123" }, as: :json
         end
-        
+
         run_test!
       end
 
       response '404', 'Espacio no encontrado' do
         let(:id) { 99999 }
-        
+
         before do
           user = User.create!(name: "Test", email: "test@test.com", password: "Password123", role: :user)
           post "/session", params: { email: user.email, password: "Password123" }, as: :json
         end
-        
+
         run_test!
       end
     end

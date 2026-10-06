@@ -16,7 +16,7 @@ RSpec.describe 'Auth API', type: :request do
               email: { type: :string },
               password: { type: :string }
             },
-            required: ['name', 'email', 'password']
+            required: [ 'name', 'email', 'password' ]
           }
         }
       }
@@ -44,7 +44,7 @@ RSpec.describe 'Auth API', type: :request do
           email: { type: :string },
           password: { type: :string }
         },
-        required: ['email', 'password']
+        required: [ 'email', 'password' ]
       }
 
       response '200', 'Sesión iniciada. Retorna cookie de sesión.' do
@@ -64,7 +64,7 @@ RSpec.describe 'Auth API', type: :request do
     get 'Obtener usuario actual' do
       tags 'Autenticación'
       produces 'application/json'
-      security [bearer_auth: [], cookie_auth: []]
+      security [ bearer_auth: [], cookie_auth: [] ]
 
       response '200', 'Usuario actual' do
         before do
@@ -82,7 +82,7 @@ RSpec.describe 'Auth API', type: :request do
     delete 'Cerrar sesión' do
       tags 'Autenticación'
       produces 'application/json'
-      security [bearer_auth: [], cookie_auth: []]
+      security [ bearer_auth: [], cookie_auth: [] ]
 
       response '200', 'Sesión cerrada' do
         before do

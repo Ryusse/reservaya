@@ -69,8 +69,7 @@ RSpec.describe 'Auth API', type: :request do
       response '200', 'Usuario actual' do
         before do
           user = User.create!(name: "Test", email: "test@test.com", password: "password123", role: :user)
-          token = JsonWebToken.encode(user_id: user.id)
-          cookies.encrypted[:reservaya_session] = { value: token }
+          post "/session", params: { email: user.email, password: "password123" }, as: :json
         end
         run_test!
       end
@@ -88,8 +87,7 @@ RSpec.describe 'Auth API', type: :request do
       response '200', 'Sesión cerrada' do
         before do
           user = User.create!(name: "Test", email: "test@test.com", password: "password123", role: :user)
-          token = JsonWebToken.encode(user_id: user.id)
-          cookies.encrypted[:reservaya_session] = { value: token }
+          post "/session", params: { email: user.email, password: "password123" }, as: :json
         end
         run_test!
       end

@@ -3,7 +3,15 @@ class ApplicationController < ActionController::API
 
   SESSION_COOKIE = :reservaya_session
 
+  before_action :ensure_json_request, if: -> { request.post? || request.put? || request.patch? || request.delete? }
+
   private
+
+  def ensure_json_request
+    return if request.format.json? || request.content_type == "application/json"
+
+    render json: { error: "Tipo de contenido no soportado. Se requiere application/json para mitigar CSRF." }, status: :unsupported_media_type
+  end
 
   def current_user
     @current_user

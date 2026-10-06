@@ -27,6 +27,14 @@ psql "$DATABASE_URL" -v email='nuevo@reservaya.local' -v name='Nombre' -v passwo
 | `spaces.space_type` | `0` private_space, `1` shared_space |
 | `reservations.status` | `0` confirmed, `1` cancelled |
 
+## psql vs. cliente gráfico
+
+Los scripts que se ejecutan con `-v nombre=valor` (casi todos los de `admin/`, `maintenance/` y
+`data/01`) **solo funcionan con `psql`**: usan variables (`:'email'`) y comandos (`\set`, `\echo`) que
+otros clientes no entienden y dan `syntax error at or near ":"` (o cerca de `LIMIT`, `\`...).
+Para clientes gráficos usa los de SQL plano: `data/02`, `data/03`, `data/04`, `maintenance/04` y los de `audit/`
+que no piden parámetros (`01`, `02`, `03`, `07`, `08`).
+
 ## Gotchas
 
 - **Email en minúsculas**: el login hace `downcase` del email; un usuario guardado con mayúsculas
@@ -50,6 +58,7 @@ psql "$DATABASE_URL" -v email='nuevo@reservaya.local' -v name='Nombre' -v passwo
 | `data/` | `01_create_space.sql` | Crea un espacio |
 | | `02_seed_spaces_example.sql` | Carga de varios espacios de ejemplo (editable) |
 | | `03_seed_reservations_wide_ranges.sql` | Reservas demo de 2–10 h para los próximos 7 días (solo usuarios `@reservaya.local`) |
+| | `04_insert_spaces_simple.sql` | Inserta varios espacios (SQL plano, editable, idempotente por nombre) |
 | `audit/` | `01_users_overview.sql` | Usuarios, roles y cantidad de reservas |
 | | `02_admins.sql` | Lista de administradores |
 | | `03_spaces_overview.sql` | Espacios con reservas totales/futuras |
@@ -61,3 +70,4 @@ psql "$DATABASE_URL" -v email='nuevo@reservaya.local' -v name='Nombre' -v passwo
 | `maintenance/` | `01_cancel_user_future_reservations.sql` | Cancela reservas futuras de un usuario |
 | | `02_set_space_status.sql` | Activa/desactiva un espacio |
 | | `03_cancel_space_reservations_on_date.sql` | Cancela las reservas de un espacio en una fecha |
+| | `04_delete_user_reservations.sql` | Borra todas las reservas de un usuario por id (SQL plano) |

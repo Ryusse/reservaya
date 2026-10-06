@@ -62,3 +62,4 @@ psql "$DATABASE_URL" -v email='nuevo@reservaya.local' -v name='Nombre' -v passwo
 | `maintenance/` | `01_cancel_user_future_reservations.sql` | Cancela reservas futuras de un usuario |
 | | `02_set_space_status.sql` | Activa/desactiva un espacio |
 | | `03_cancel_space_reservations_on_date.sql` | Cancela las reservas de un espacio en una fecha |
+| | `04_delete_user_reservations.sql` | **Borra** las reservas de un usuario (todas, o solo futuras con `only_future=1`) |

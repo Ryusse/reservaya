@@ -31,11 +31,10 @@ WHERE s.space_type = 0 AND a.status = 0 AND b.status = 0;
 
 \echo '== Espacios compartidos que superan su capacidad en algún instante (por inicio de reserva)'
 SELECT s.name, a.date, a.start_time, sum(b.seats_reserved) AS ocupados, s.capacity
-FROM reservations a
+FROM (SELECT DISTINCT space_id, date, start_time FROM reservations WHERE status = 0) a
 JOIN spaces s ON s.id = a.space_id AND s.space_type = 1
 JOIN reservations b ON b.space_id = a.space_id AND b.date = a.date AND b.status = 0
                    AND b.start_time <= a.start_time AND b.end_time > a.start_time
-WHERE a.status = 0
 GROUP BY s.name, s.capacity, a.date, a.start_time
 HAVING sum(b.seats_reserved) > s.capacity;
 

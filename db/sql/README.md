@@ -49,6 +49,7 @@ psql "$DATABASE_URL" -v email='nuevo@reservaya.local' -v name='Nombre' -v passwo
 | | `04_reset_password.sql` | Resetea la contraseña de un usuario |
 | `data/` | `01_create_space.sql` | Crea un espacio |
 | | `02_seed_spaces_example.sql` | Carga de varios espacios de ejemplo (editable) |
+| | `03_seed_reservations_wide_ranges.sql` | Reservas demo de 2–10 h para los próximos 7 días (solo usuarios `@reservaya.local`) |
 | `audit/` | `01_users_overview.sql` | Usuarios, roles y cantidad de reservas |
 | | `02_admins.sql` | Lista de administradores |
 | | `03_spaces_overview.sql` | Espacios con reservas totales/futuras |

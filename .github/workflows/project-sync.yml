@@ -33,14 +33,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Determine phase from diff vs dev
+      - name: Determine phase from diff vs base (dev if it exists, else main)
         id: diff
         env:
           BRANCH: ${{ github.ref_name }}
         run: |
-          git fetch origin dev
-          CHANGED="$(git diff --name-only "origin/dev...$BRANCH" || true)"
-          echo "Changed files vs dev:"
+          # El backend solo tiene main; el frontend usa dev como rama de integración.
+          if git ls-remote --exit-code --heads origin dev >/dev/null 2>&1; then BASE=dev; else BASE=main; fi
+          git fetch origin "$BASE"
+          CHANGED="$(git diff --name-only "origin/$BASE...$BRANCH" || true)"
+          echo "Changed files vs $BASE:"
           echo "$CHANGED"
           HAS_TASKS=no
           HAS_CODE=no

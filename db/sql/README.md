@@ -71,4 +71,4 @@ que no piden parámetros (`01`, `02`, `03`, `07`, `08`).
 | | `02_set_space_status.sql` | Activa/desactiva un espacio |
 | | `03_cancel_space_reservations_on_date.sql` | Cancela las reservas de un espacio en una fecha |
 | | `04_delete_user_reservations.sql` | **Borra** las reservas de un usuario (todas, o solo futuras con `only_future=1`) |
-| | `05_delete_user_reservations_plain.sql` | Lo mismo que el 04 pero en SQL plano (para clientes gráficos): se edita el email dentro del archivo |
+| | `05_delete_user_reservations_plain.sql` | Borra todas las reservas de un usuario por id, en SQL plano (para clientes gráficos) |

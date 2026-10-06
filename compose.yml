@@ -10,7 +10,7 @@ services:
       - "3301:3000"
     volumes:
       - .:/app
-    command: /bin/sh -c "while sleep 1000; do :; done" 
+    command: bash -c "rm -f tmp/pids/server.pid && bin/rails server -b 0.0.0.0" 
   postgres:
     container_name: reservaya-backend-postgres
     image: postgres:18.6

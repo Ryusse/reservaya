@@ -6,7 +6,7 @@ RSpec.describe 'Reservations API', type: :request do
       tags 'Reservas'
       consumes 'application/json'
       produces 'application/json'
-      security [bearer_auth: [], cookie_auth: []]
+      security [ bearer_auth: [], cookie_auth: [] ]
 
       parameter name: :reservation, in: :body, schema: {
         type: :object,
@@ -20,7 +20,7 @@ RSpec.describe 'Reservations API', type: :request do
               end_time: { type: :string, example: '12:00' },
               seats_reserved: { type: :integer }
             },
-            required: ['space_id', 'date', 'start_time', 'end_time', 'seats_reserved']
+            required: [ 'space_id', 'date', 'start_time', 'end_time', 'seats_reserved' ]
           }
         }
       }

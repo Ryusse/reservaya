@@ -32,7 +32,7 @@ class ReservationsController < ApplicationController
     end
 
     if success
-      NotificationMailer.reservation_created(current_user, @reservation).deliver_later
+      notify_reservation_created
       render :create, status: :created
     else
       render json: { errors: @reservation.errors.full_messages }, status: :unprocessable_entity
